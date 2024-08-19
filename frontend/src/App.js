@@ -9,14 +9,16 @@ import { BrowserRouter as Router,Route,Routes } from 'react-router-dom';
 function App() {
   return (
     <div className="App">
-      <Header/>
+
       <Router>
+       <Header/>
         <Routes>
           <Route path='/' element={<PostList/>} />
           <Route path='/posts/:id' element={<PostDetail/>} />
         </Routes>
+        <Footer/>
       </Router>
-      <Footer/>
+      
      
     </div>
   );

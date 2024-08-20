@@ -6,14 +6,20 @@ import Footer from "../components/Footer";
 
 export default function PostList() {
    const [posts,setPosts] = useState([]);
+   const [categories,setCategories] = useState([]);
     
    const fetchPosts =  async () => {
            const response = await axios.get('http://localhost:8000/api/posts')
           setPosts(response.data);
    }
+   const fetchCategories = async () =>{
+	const response = await axios.get('http://localhost:8000/api/categories')
+	setCategories(response.data);
+   }
 
    useEffect(()=>{
      fetchPosts();
+	 fetchCategories();
    },[]);
 
     return <>
@@ -45,9 +51,8 @@ export default function PostList() {
 						<div className="card-body">
 							<h5 className="card-title">Categories</h5>
 							<ul className="list-group">
-								<li className="list-group-item"><a href="#" className="text-black">Category 1</a></li>
-								<li className="list-group-item"><a href="#"  className="text-black">Category 2</a></li>
-								<li className="list-group-item"><a href="#"  className="text-black">Category 3</a></li>
+							  {categories.map(category => <li className="list-group-item"><a href="#" className="text-black">{category.name}</a></li>)}
+								
 							</ul>
 						</div>
 					</div>

@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const Category = require('../models/Category');
 const Post = require('../models/Post');
+
 
 // Get All Post
 router.get('/', async (req,res) =>{
@@ -81,4 +83,24 @@ router.delete('/:id',async (req,res) =>{
         
     }
 })
+
+// Fetch posts by category ID
+router.get('/category/:categoryId', async(req,res) =>{
+    try {
+        const categoryId = req.params.categoryId;
+
+        // Validate Category ID
+        const categoryExists = await Category.findById(categoryId);
+        if(!categoryExists){
+            res.status(400).json({message:"Invalid category ID"})
+        }
+        // fetch Posts
+        const posts =await Post.find({category:categoryId}).populate('category');
+        res.status(200).json(posts)
+    } catch (error) {
+        res.status(500).json({message:error.message})
+    }
+})
+
+
 module.exports =router;
